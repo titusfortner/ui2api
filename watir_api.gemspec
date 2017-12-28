@@ -25,6 +25,8 @@ compare test data with what is input and displayed via UI.}
 
   spec.require_paths = ["lib"]
   spec.add_runtime_dependency "rest-client"
+  spec.add_runtime_dependency "faker"
+  spec.add_runtime_dependency "watir_model"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
