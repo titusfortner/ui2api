@@ -1,4 +1,5 @@
 require "rest-client"
+require "json"
 
 module WatirApi
   class Base
@@ -12,6 +13,12 @@ module WatirApi
 
       def show(id)
         RestClient.get "#{base_url}/#{id}"
+      rescue => e
+        e.response
+      end
+
+      def create(payload)
+        RestClient.post base_url, payload, content_type: :json
       rescue => e
         e.response
       end
