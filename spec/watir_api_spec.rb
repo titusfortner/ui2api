@@ -1,9 +1,22 @@
 RSpec.describe WatirApi do
-  it "has a version number" do
-    expect(WatirApi::VERSION).not_to be nil
+  describe "#create" do
+    it "puts data into Application via API" do
+      user = API::User.create(WatirApi::Data::User.new)
+      user = API::User.show(WatirApi::Data::User.new)
+
+    end
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  describe "#index" do
   end
+
+  describe "#show" do
+  end
+
+  describe "#update" do
+  end
+
+  describe "#destroy" do
+  end
+
 end

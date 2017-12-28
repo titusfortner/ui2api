@@ -1,14 +1,24 @@
-require "bundler/setup"
+require "watir"
+require "watir_model"
+require "require_all"
+require 'webdrivers'
 require "watir_api"
 
+require_rel "support/apis"
+require_rel "support/data"
+require_rel "support/site"
+
+include WatirApi
+
+Site.base_url = 'http://localhost:3000'
+
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.before(:each) do
+    @browser =  Watir::Browser.new
+    Site.browser = @browser
+  end
 
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+  config.after(:each) do
+    @browser.quit
   end
 end
