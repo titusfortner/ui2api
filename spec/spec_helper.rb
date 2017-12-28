@@ -1,7 +1,16 @@
 require "bundler/setup"
 require "watir_api"
+require "require_all"
+
+require_rel "support/apis"
+
+include WatirApi
+
+Base.base_url = "https://restful-booker.herokuapp.com/booking"
 
 RSpec.configure do |config|
+  config.include WatirApi
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 

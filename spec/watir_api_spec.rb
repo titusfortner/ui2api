@@ -1,9 +1,10 @@
 RSpec.describe WatirApi do
-  it "has a version number" do
-    expect(WatirApi::VERSION).not_to be nil
-  end
+  describe "#index" do
+    it "gets code" do
+      bookings = API::Booking.index
 
-  it "does something useful" do
-    expect(false).to eq(true)
+      expect(bookings.code).to be(200)
+    end
+
   end
 end
