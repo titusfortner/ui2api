@@ -1,4 +1,12 @@
 RSpec.describe WatirApi do
+  describe "#route" do
+    it "makes use of endpoint" do
+      expect(API::Booking.route).to eq "#{Base.base_url}/booking"
+    end
+
+  end
+
+
   describe "#index" do
     it "gets code" do
       bookings = API::Booking.index

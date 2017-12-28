@@ -6,19 +6,19 @@ module WatirApi
     class << self
 
       def index
-        RestClient.get(base_url)
+        RestClient.get route
       rescue => e
         e.response
       end
 
       def show(id)
-        RestClient.get "#{base_url}/#{id}"
+        RestClient.get "#{route}/#{id}"
       rescue => e
         e.response
       end
 
       def create(payload)
-        RestClient.post base_url, payload, content_type: :json
+        RestClient.post route, payload, content_type: :json
       rescue => e
         e.response
       end
@@ -28,7 +28,15 @@ module WatirApi
       end
 
       def base_url
-        @@base_url
+        @@base_url || ''
+      end
+
+      def route
+        "#{base_url}/#{endpoint}"
+      end
+
+      def endpoint
+        ''
       end
     end
 
