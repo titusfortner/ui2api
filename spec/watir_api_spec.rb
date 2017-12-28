@@ -5,6 +5,13 @@ RSpec.describe WatirApi do
 
       expect(bookings.code).to be(200)
     end
+  end
 
+  describe "#show" do
+    it "gets code" do
+      booking = API::Booking.show(1)
+
+      expect(booking.code).to be(200)
+    end
   end
 end
