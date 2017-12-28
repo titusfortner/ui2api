@@ -1,13 +1,11 @@
-require 'faker'
-
 module WatirApi
   module Model
-    class BookingDates < WatirModel
+    class BookingDates < Base
       key(:checkin) { Date.today + 1 }
       key(:checkout) { Date.today + 7 }
     end
 
-    class Booking < WatirModel
+    class Booking < Base
       key(:firstname) { Faker::Name.first_name }
       key(:lastname) { Faker::Name.last_name }
       key(:totalprice) { Faker::Commerce.price }
