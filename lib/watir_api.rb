@@ -11,8 +11,9 @@ module WatirApi
         e.response
       end
 
-      def show(id)
-        RestClient.get "#{route}/#{id}"
+      def show(opt)
+        id = opt.delete :id
+        RestClient.get "#{route}/#{id}", opt
       rescue => e
         e.response
       end

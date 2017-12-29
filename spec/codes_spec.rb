@@ -8,7 +8,7 @@ RSpec.describe WatirApi do
 
 
   describe "#index" do
-    it "gets code" do
+    it "returns 200" do
       bookings = API::Booking.index
 
       expect(bookings.code).to be(200)
@@ -16,15 +16,21 @@ RSpec.describe WatirApi do
   end
 
   describe "#show" do
-    it "gets code" do
-      booking = API::Booking.show(1)
+    it "returns 200" do
+      booking = API::Booking.show(id: 1)
 
       expect(booking.code).to be(200)
+    end
+
+    it "returns 418 with bad header" do
+      booking = API::Booking.show(id: 1, accept: :text)
+
+      expect(booking.code).to be(418)
     end
   end
 
   describe "#create" do
-    it "gets code" do
+    it "returns 200" do
       booking = API::Booking.create(Model::Booking.new.to_api)
 
       expect(booking.code).to be(200)
@@ -32,7 +38,7 @@ RSpec.describe WatirApi do
   end
 
   describe "#destroy" do
-    it "gets code" do
+    it "returns 200" do
       booking = API::Booking.create(Model::Booking.new.to_api)
       id = (JSON.parse booking.body)['bookingid']
 
