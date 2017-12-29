@@ -60,7 +60,7 @@ RSpec.describe WatirApi do
       authenticate = API::Authenticate.create(user)
       token = JSON.parse(authenticate.body)['token']
 
-      deletion = API::Booking.destroy(id, token)
+      deletion = API::Booking.destroy(id: id, token: token)
       expect(deletion.code).to be(201)
       expect(API::Booking.show(id: id).code).to eq 404
     end

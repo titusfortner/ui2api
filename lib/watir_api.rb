@@ -18,7 +18,8 @@ module WatirApi
         rest_call(:post, route, payload, content_type: :json)
       end
 
-      def destroy(id, opt)
+      def destroy(opt)
+        id = opt.delete :id
         rest_call(:delete, "#{route}/#{id}", opt)
       end
 

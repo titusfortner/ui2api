@@ -9,9 +9,9 @@ module API
       super(id.to_i, payload, opt)
     end
 
-    def self.destroy(id, token)
-      opt = {cookies: {token: token}}
-      super(id.to_i, opt)
+    def self.destroy(opt)
+      opt[:cookies] = {token: opt.delete(:token)}
+      super
     end
   end
 
