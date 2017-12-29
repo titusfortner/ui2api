@@ -6,28 +6,24 @@ module WatirApi
     class << self
 
       def index
-        RestClient.get route
-      rescue => e
-        e.response
+        rest_call(:get, route)
       end
 
       def show(opt)
         id = opt.delete :id
-        RestClient.get "#{route}/#{id}", opt
-      rescue => e
-        e.response
+        rest_call(:get, "#{route}/#{id}", opt)
       end
 
       def create(payload)
-        RestClient.post route, payload, content_type: :json
-      rescue => e
-        e.response
+        rest_call(:post, route, payload, content_type: :json)
       end
 
       def destroy(id, opt)
-        RestClient.delete "#{route}/#{id}", opt
-      rescue => e
-        e.response
+        rest_call(:delete, "#{route}/#{id}", opt)
+      end
+
+      def update(id, payload, opt)
+        rest_call(:put, "#{route}/#{id}", payload, opt)
       end
 
       def base_url=(base_url)
@@ -44,6 +40,14 @@ module WatirApi
 
       def endpoint
         ''
+      end
+
+      private
+
+      def rest_call(method, *args)
+        RestClient.send(method, *args)
+      rescue => e
+        e.response
       end
     end
 

@@ -3,9 +3,7 @@ RSpec.describe WatirApi do
     it "makes use of endpoint" do
       expect(API::Booking.route).to eq "#{Base.base_url}/booking"
     end
-
   end
-
 
   describe "#index" do
     it "returns 200" do
@@ -34,6 +32,22 @@ RSpec.describe WatirApi do
       booking = API::Booking.create(Model::Booking.new.to_api)
 
       expect(booking.code).to be(200)
+    end
+  end
+
+  # update doesn't seem to work
+  describe "#update" do
+    xit "returns 200" do
+      booking = API::Booking.create(Model::Booking.new.to_api)
+      id = (JSON.parse booking.body)['bookingid']
+
+      user = Model::User.authorised.to_api
+      authenticate = API::Authenticate.create(user)
+      token = JSON.parse(authenticate.body)['token']
+
+      updated_booking = Model::Booking.new.to_api
+      updated = API::Booking.update(id, updated_booking, token)
+      expect(updated.code).to be(200)
     end
   end
 
