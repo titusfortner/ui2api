@@ -3,26 +3,35 @@ require "json"
 
 module WatirApi
   class Base
+
+    attr_reader :data, :code, :response
+
+    def initialize(response)
+      @response = response
+      @code = response.code
+      @data = JSON.parse(response.body) rescue nil
+    end
+
     class << self
 
       def index(opt = {})
-        rest_call(:get, route, opt)
+        new rest_call(:get, route, opt)
       end
 
       def show(id:, **opt)
-        rest_call(:get, "#{route}/#{id}", opt)
+        new rest_call(:get, "#{route}/#{id}", opt)
       end
 
       def create(obj = nil)
-        rest_call(:post, route, generate_payload(obj), content_type: :json)
+        new rest_call(:post, route, generate_payload(obj), content_type: :json)
       end
 
       def destroy(id:, **opt)
-        rest_call(:delete, "#{route}/#{id}", opt)
+        new rest_call(:delete, "#{route}/#{id}", opt)
       end
 
       def update(id:, with:, **opt)
-        rest_call(:put, "#{route}/#{id}", generate_payload(with), opt)
+        new rest_call(:put, "#{route}/#{id}", generate_payload(with), opt)
       end
 
       def base_url=(base_url)

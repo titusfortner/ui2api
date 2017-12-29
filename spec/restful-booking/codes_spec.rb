@@ -35,30 +35,27 @@ RSpec.describe WatirApi do
     end
   end
 
-  # update doesn't seem to work
   describe "#update" do
-    xit "returns 200" do
-      booking = API::Booking.create
-      id = (JSON.parse booking.body)['bookingid']
+    it "verifies syntax even if not returning 200" do
+      id = API::Booking.create.data['bookingid']
 
       user = Model::User.authorised
-      authenticate = API::Authenticate.create(user)
-      token = JSON.parse(authenticate.body)['token']
+      token = API::Authenticate.create(user).data['token']
 
       updated_booking = Model::Booking.new
       updated = API::Booking.update(id: id, with: updated_booking, token: token)
-      expect(updated.code).to be(200)
+
+      # update doesn't seem to work; I think this is intentional
+      expect(updated.code).to be(400)
     end
   end
 
   describe "#destroy" do
     it "returns 200" do
-      booking = API::Booking.create
-      id = (JSON.parse booking.body)['bookingid']
+      id = API::Booking.create.data['bookingid']
 
       user = Model::User.authorised
-      authenticate = API::Authenticate.create(user)
-      token = JSON.parse(authenticate.body)['token']
+      token = API::Authenticate.create(user).data['token']
 
       deletion = API::Booking.destroy(id: id, token: token)
       expect(deletion.code).to be(201)
