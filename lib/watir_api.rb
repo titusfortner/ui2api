@@ -13,7 +13,7 @@ module WatirApi
         rest_call(:get, "#{route}/#{id}", opt)
       end
 
-      def create(obj)
+      def create(obj = nil)
         rest_call(:post, route, generate_payload(obj), content_type: :json)
       end
 
@@ -51,6 +51,8 @@ module WatirApi
 
       def generate_payload(obj)
         case obj
+        when NilClass
+          model_object.new.to_api
         when WatirModel
           obj.to_api
         when JSON
@@ -58,6 +60,10 @@ module WatirApi
         else
           obj.to_json
         end
+      end
+
+      def model_object
+        eval "Model::#{self.to_s[/[^:]*$/]}"
       end
     end
 
