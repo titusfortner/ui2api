@@ -9,7 +9,7 @@ module WatirApi
     def initialize(response)
       @response = response
       @code = response.code
-      @data = JSON.parse(response.body) rescue nil
+      @data = JSON.parse(response.body, symbolize_names: true) rescue nil
     end
 
     class << self

@@ -37,10 +37,10 @@ RSpec.describe WatirApi do
 
   describe "#update" do
     it "verifies syntax even if not returning 200" do
-      id = API::Booking.create.data['bookingid']
+      id = API::Booking.create.data[:bookingid]
 
       user = Model::User.authorised
-      token = API::Authenticate.create(user).data['token']
+      token = API::Authenticate.create(user).data[:token]
 
       updated_booking = Model::Booking.new
       updated = API::Booking.update(id: id, with: updated_booking, token: token)
@@ -52,10 +52,10 @@ RSpec.describe WatirApi do
 
   describe "#destroy" do
     it "returns 200" do
-      id = API::Booking.create.data['bookingid']
+      id = API::Booking.create.data[:bookingid]
 
       user = Model::User.authorised
-      token = API::Authenticate.create(user).data['token']
+      token = API::Authenticate.create(user).data[:token]
 
       deletion = API::Booking.destroy(id: id, token: token)
       expect(deletion.code).to be(201)
