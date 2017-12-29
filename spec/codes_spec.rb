@@ -30,4 +30,18 @@ RSpec.describe WatirApi do
       expect(booking.code).to be(200)
     end
   end
+
+  describe "#destroy" do
+    it "gets code" do
+      booking = API::Booking.create(Model::Booking.new.to_api)
+      id = (JSON.parse booking.body)['bookingid']
+
+      user = Model::User.authorised.to_api
+      authenticate = API::Authenticate.create(user)
+      token = JSON.parse(authenticate.body)['token']
+
+      deletion = API::Booking.destroy(id, token)
+      expect(deletion.code).to be(201)
+    end
+  end
 end

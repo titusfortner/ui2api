@@ -3,6 +3,11 @@ module API
     def self.endpoint
       'booking'
     end
+
+      def self.destroy(id, token)
+        opt = {cookies: {token: token}}
+        super(id.to_i, opt)
+      end
   end
 
 end

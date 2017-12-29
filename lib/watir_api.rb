@@ -23,6 +23,12 @@ module WatirApi
         e.response
       end
 
+      def destroy(id, opt)
+        RestClient.delete "#{route}/#{id}", opt
+      rescue => e
+        e.response
+      end
+
       def base_url=(base_url)
         @@base_url = base_url
       end
