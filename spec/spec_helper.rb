@@ -8,7 +8,11 @@ require_rel "support/data"
 
 include WatirApi
 
-Base.base_url = "https://restful-booker.herokuapp.com"
+Base.base_url = if ENV['RUN_LOCAL']
+                  "http://localhost:3001"
+                else
+                  "https://restful-booker.herokuapp.com"
+                end
 WatirModel.yml_directory = "spec/support/config/data"
 
 RSpec.configure do |config|
