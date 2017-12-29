@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe WatirApi do
   describe "#route" do
     it "makes use of endpoint" do

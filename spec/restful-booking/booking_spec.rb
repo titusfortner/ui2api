@@ -1,13 +1,10 @@
+require 'spec_helper'
+
 RSpec.describe WatirApi do
   describe "Booking" do
 
-    def token
-      user = Model::User.authorised
-      API::Authenticate.create(user).data[:token]
-    end
-
     describe "#index" do
-      it "returns booking list" do
+      it "returns bookings as Array of Hashes" do
         bookings = API::Booking.index
 
         expect(bookings.data).to all(be_a Hash)
@@ -23,22 +20,29 @@ RSpec.describe WatirApi do
         bookings = API::Booking.index.data
         expect(bookings.map { |b| b[:bookingid] }).to include(id)
       end
+
+      it "returns booking information as nested Hash" do
+        booking = Model::Booking.new
+        created_booking = API::Booking.create(booking)
+
+        converted_booking = Model::Booking.convert created_booking.data[:booking]
+        bug_workaround(converted_booking)
+
+        expect(converted_booking).to eq booking
+      end
     end
 
     describe "#show" do
-      it "returns values for booking" do
+      it "returns booking information as a WatirModel" do
         booking = Model::Booking.new
         create_booking = API::Booking.create(booking)
         id = create_booking.data[:bookingid]
 
-        booking_response = API::Booking.show(id: id)
-        show_booking = Model::Booking.convert(booking_response.data)
+        show_booking = API::Booking.show(id: id).data
 
-        # This is a workaround for an intentional bug in the restful-booker API
-        show_booking.bookingdates.checkin = show_booking.bookingdates.checkin + 1
-        show_booking.bookingdates.checkout = show_booking.bookingdates.checkout + 1
+        bug_workaround(show_booking)
 
-        expect(booking).to eq show_booking
+        expect(show_booking).to eq booking
       end
     end
 
@@ -49,7 +53,7 @@ RSpec.describe WatirApi do
         id = booking.data[:bookingid]
 
         updated_booking = Model::Booking.new
-        updated = API::Booking.update(id: id, with: updated_booking, token: token)
+        API::Booking.update(id: id, with: updated_booking, token: token)
       end
     end
 
@@ -63,6 +67,16 @@ RSpec.describe WatirApi do
         expect(bookings.map { |b| b[:bookingid] }).to_not include(id)
       end
     end
+  end
 
+  def token
+    user = Model::User.authorised
+    API::Authenticate.create(user).data[:token]
+  end
+
+  # This is a workaround for an intentional bug in the restful-booker API
+  def bug_workaround(booking)
+    booking.bookingdates.checkin = booking.bookingdates.checkin + 1
+    booking.bookingdates.checkout = booking.bookingdates.checkout + 1
   end
 end

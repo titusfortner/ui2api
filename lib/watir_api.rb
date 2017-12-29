@@ -3,15 +3,6 @@ require "json"
 
 module WatirApi
   class Base
-
-    attr_reader :data, :code, :response
-
-    def initialize(response)
-      @response = response
-      @code = response.code
-      @data = JSON.parse(response.body, symbolize_names: true) rescue nil
-    end
-
     class << self
 
       def index(opt = {})
@@ -50,6 +41,10 @@ module WatirApi
         ''
       end
 
+      def model_object
+        eval "Model::#{self.to_s[/[^:]*$/]}"
+      end
+
       private
 
       def rest_call(method, *args)
@@ -70,11 +65,30 @@ module WatirApi
           obj.to_json
         end
       end
+    end
 
-      def model_object
-        eval "Model::#{self.to_s[/[^:]*$/]}"
+    attr_reader :data, :code, :response
+
+    def initialize(response)
+      @response = response
+      @code = response.code
+      @data = JSON.parse(response.body, symbolize_names: true) rescue nil
+      @data = (convert_to_model(@data) || @data) unless @data.nil? || !(defined? model_object.new)
+    end
+
+    def convert_to_model(data)
+      if data.is_a? Hash
+        (model_object.keys & data.keys).empty? ? return : model_object.convert(data)
+      elsif data.is_a? Array
+        data.map do |hash|
+          model = convert_to_model(hash)
+          model.nil? ? return : model
+        end
       end
     end
 
+    def model_object
+      self.class.model_object
+    end
   end
 end
