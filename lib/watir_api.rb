@@ -5,12 +5,11 @@ module WatirApi
   class Base
     class << self
 
-      def index
-        rest_call(:get, route)
+      def index(opt = {})
+        rest_call(:get, route, opt)
       end
 
-      def show(opt)
-        id = opt.delete :id
+      def show(id:, **opt)
         rest_call(:get, "#{route}/#{id}", opt)
       end
 
@@ -18,12 +17,11 @@ module WatirApi
         rest_call(:post, route, payload, content_type: :json)
       end
 
-      def destroy(opt)
-        id = opt.delete :id
+      def destroy(id:, **opt)
         rest_call(:delete, "#{route}/#{id}", opt)
       end
 
-      def update(id, payload, opt)
+      def update(id:, payload:, **opt)
         rest_call(:put, "#{route}/#{id}", payload, opt)
       end
 

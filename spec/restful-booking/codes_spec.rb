@@ -46,7 +46,7 @@ RSpec.describe WatirApi do
       token = JSON.parse(authenticate.body)['token']
 
       updated_booking = Model::Booking.new.to_api
-      updated = API::Booking.update(id, updated_booking, token)
+      updated = API::Booking.update(id: id, payload: updated_booking, token: token)
       expect(updated.code).to be(200)
     end
   end

@@ -4,9 +4,9 @@ module API
       'booking'
     end
 
-    def self.update(id, payload, token)
-      opt = {cookies: {token: token}}
-      super(id.to_i, payload, opt)
+    def self.update(id:, payload:, **opt)
+      opt[:cookies] = {token: opt.delete(:token)}
+      super
     end
 
     def self.destroy(opt)
