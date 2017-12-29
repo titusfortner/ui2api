@@ -13,16 +13,16 @@ module WatirApi
         rest_call(:get, "#{route}/#{id}", opt)
       end
 
-      def create(payload)
-        rest_call(:post, route, payload, content_type: :json)
+      def create(obj)
+        rest_call(:post, route, generate_payload(obj), content_type: :json)
       end
 
       def destroy(id:, **opt)
         rest_call(:delete, "#{route}/#{id}", opt)
       end
 
-      def update(id:, payload:, **opt)
-        rest_call(:put, "#{route}/#{id}", payload, opt)
+      def update(id:, with:, **opt)
+        rest_call(:put, "#{route}/#{id}", generate_payload(with), opt)
       end
 
       def base_url=(base_url)
@@ -47,6 +47,17 @@ module WatirApi
         RestClient.send(method, *args)
       rescue => e
         e.response
+      end
+
+      def generate_payload(obj)
+        case obj
+        when WatirModel
+          obj.to_api
+        when JSON
+          # noop
+        else
+          obj.to_json
+        end
       end
     end
 

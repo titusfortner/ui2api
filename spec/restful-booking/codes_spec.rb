@@ -29,7 +29,7 @@ RSpec.describe WatirApi do
 
   describe "#create" do
     it "returns 200" do
-      booking = API::Booking.create(Model::Booking.new.to_api)
+      booking = API::Booking.create(Model::Booking.new)
 
       expect(booking.code).to be(200)
     end
@@ -38,25 +38,25 @@ RSpec.describe WatirApi do
   # update doesn't seem to work
   describe "#update" do
     xit "returns 200" do
-      booking = API::Booking.create(Model::Booking.new.to_api)
+      booking = API::Booking.create(Model::Booking.new)
       id = (JSON.parse booking.body)['bookingid']
 
-      user = Model::User.authorised.to_api
+      user = Model::User.authorised
       authenticate = API::Authenticate.create(user)
       token = JSON.parse(authenticate.body)['token']
 
-      updated_booking = Model::Booking.new.to_api
-      updated = API::Booking.update(id: id, payload: updated_booking, token: token)
+      updated_booking = Model::Booking.new
+      updated = API::Booking.update(id: id, with: updated_booking, token: token)
       expect(updated.code).to be(200)
     end
   end
 
   describe "#destroy" do
     it "returns 200" do
-      booking = API::Booking.create(Model::Booking.new.to_api)
+      booking = API::Booking.create(Model::Booking.new)
       id = (JSON.parse booking.body)['bookingid']
 
-      user = Model::User.authorised.to_api
+      user = Model::User.authorised
       authenticate = API::Authenticate.create(user)
       token = JSON.parse(authenticate.body)['token']
 
