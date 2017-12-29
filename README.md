@@ -21,7 +21,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem is still in beta; if you have suggestions to improve it, please write some code or
+raise an issue on Github
 
 ## Contributing
 
