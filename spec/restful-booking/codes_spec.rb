@@ -62,6 +62,7 @@ RSpec.describe WatirApi do
 
       deletion = API::Booking.destroy(id, token)
       expect(deletion.code).to be(201)
+      expect(API::Booking.show(id: id).code).to eq 404
     end
   end
 end
