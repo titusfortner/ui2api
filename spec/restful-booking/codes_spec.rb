@@ -23,7 +23,7 @@ RSpec.describe WatirApi do
     end
 
     it "returns 418 with bad header" do
-      booking = API::Booking.show(id: 1, accept: :text)
+      booking = API::Booking.show(id: 1, headers: {accept: :text})
 
       expect(booking.code).to be(418)
     end

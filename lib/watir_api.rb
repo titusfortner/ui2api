@@ -6,23 +6,31 @@ module WatirApi
     class << self
 
       def index(opt = {})
-        new rest_call(:get, route, opt)
+        new rest_call({method: :get,
+                      url: route}.merge opt)
       end
 
       def show(id:, **opt)
-        new rest_call(:get, "#{route}/#{id}", opt)
+        new rest_call({method: :get,
+                      url: "#{route}/#{id}"}.merge opt)
       end
 
       def create(obj = nil)
-        new rest_call(:post, route, generate_payload(obj), content_type: :json)
+        new rest_call(method: :post,
+                      url: route,
+                      payload: generate_payload(obj),
+                      headers: headers)
       end
 
       def destroy(id:, **opt)
-        new rest_call(:delete, "#{route}/#{id}", opt)
+        new rest_call({method: :delete,
+                      url: "#{route}/#{id}"}.merge opt)
       end
 
       def update(id:, with:, **opt)
-        new rest_call(:put, "#{route}/#{id}", generate_payload(with), opt)
+        new rest_call({method: :put,
+                      url: "#{route}/#{id}",
+                      payload: generate_payload(with)}.merge opt)
       end
 
       def base_url=(base_url)
@@ -47,10 +55,10 @@ module WatirApi
 
       private
 
-      def rest_call(method, *args)
-        RestClient.send(method, *args)
-      rescue => e
-        e.response
+      def rest_call(opt)
+        RestClient::Request.execute(opt) do |response, request, result|
+          [response, request, result]
+        end
       end
 
       def generate_payload(obj)
@@ -65,13 +73,19 @@ module WatirApi
           obj.to_json
         end
       end
+
+      def headers
+        {content_type: :json}
+      end
     end
 
     attr_reader :data, :code, :response
 
-    def initialize(response)
+    def initialize(args)
+      response, request, _result = *args
       @response = response
       @code = response.code
+      @header = request.instance_variable_get('@header')
       @data = JSON.parse(response.body, symbolize_names: true) rescue nil
       @data = (convert_to_model(@data) || @data) unless @data.nil? || !(defined? model_object.new)
     end
