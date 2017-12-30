@@ -12,7 +12,7 @@ module WatirApi
 
       def show(id:, **opt)
         new rest_call({method: :get,
-                      url: "#{route}/#{id}"}.merge opt)
+                      url: "#{route}/#{id}".chomp('/')}.merge opt)
       end
 
       def create(obj = nil)
@@ -24,12 +24,12 @@ module WatirApi
 
       def destroy(id:, **opt)
         new rest_call({method: :delete,
-                      url: "#{route}/#{id}"}.merge opt)
+                      url: "#{route}/#{id}".chomp('/')}.merge opt)
       end
 
       def update(id:, with:, **opt)
         new rest_call({method: :put,
-                      url: "#{route}/#{id}",
+                      url: "#{route}/#{id}".chomp('/'),
                       payload: generate_payload(with)}.merge opt)
       end
 
@@ -41,8 +41,8 @@ module WatirApi
         @@base_url || ''
       end
 
-      def route
-        "#{base_url}/#{endpoint}"
+      def route(opt = {})
+        "#{opt[:base_url] || base_url}/#{opt.delete(:endpoint) || endpoint}"
       end
 
       def endpoint
@@ -56,6 +56,8 @@ module WatirApi
       private
 
       def rest_call(opt)
+        opt[:verify_ssl] = opt.delete(:ssl) if opt.key?(:ssl)
+        opt[:headers] = opt.delete(:headers) || headers
         RestClient::Request.execute(opt) do |response, request, result|
           [response, request, result]
         end
@@ -92,7 +94,12 @@ module WatirApi
 
     def convert_to_model(data)
       if data.is_a? Hash
-        (model_object.keys & data.keys).empty? ? return : model_object.convert(data)
+        return if (model_object.valid_keys & data.keys).empty?
+        begin
+          model_object.convert(data)
+        rescue StandardError => ex
+          raise unless ex.message.include?('Can not convert Hash to Model')
+        end
       elsif data.is_a? Array
         data.map do |hash|
           model = convert_to_model(hash)

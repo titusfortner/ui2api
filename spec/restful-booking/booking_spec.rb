@@ -41,6 +41,23 @@ RSpec.describe WatirApi do
 
         expect(show_booking).to eq booking
       end
+
+      module Model
+        class SpecialBooking < Booking
+          key(:something_else) { 'Has a Default Value' }
+        end
+      end
+
+      it "returns special booking information as a hash" do
+        allow(API::Booking).to receive(:model_object).and_return(Model::SpecialBooking)
+
+        create_booking = API::Booking.create
+        id = create_booking.data[:bookingid]
+
+        show_booking = API::Booking.show(id: id).data
+
+        expect(show_booking).to be_a Hash
+      end
     end
 
     # update doesn't seem to work; I think this is intentional
