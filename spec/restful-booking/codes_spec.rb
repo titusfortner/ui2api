@@ -38,7 +38,7 @@ RSpec.describe WatirApi do
   end
 
   describe "#update" do
-    it "verifies syntax even if not returning 200" do
+    it "returns 200" do
       id = API::Booking.create.data[:bookingid]
 
       user = Model::User.authorised
@@ -47,8 +47,7 @@ RSpec.describe WatirApi do
       updated_booking = Model::Booking.new
       updated = API::Booking.update(id: id, with: updated_booking, token: token)
 
-      # update doesn't seem to work; I think this is intentional
-      expect(updated.code).to be(400)
+      expect(updated.code).to be(200)
     end
   end
 

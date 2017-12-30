@@ -11,7 +11,7 @@ module WatirApi
       key(:totalprice, data_type: Integer) { Faker::Commerce.price.round }
       key(:depositpaid) { true }
       key(:bookingdates, data_type: BookingDates) { BookingDates.new }
-      key(:additionalneeds) { 'Breakfast' }
+      key(:additionalneeds)
     end
   end
 end

@@ -26,7 +26,6 @@ RSpec.describe WatirApi do
         created_booking = API::Booking.create(booking)
 
         converted_booking = Model::Booking.convert created_booking.data[:booking]
-        bug_workaround(converted_booking)
 
         expect(converted_booking).to eq booking
       end
@@ -40,8 +39,6 @@ RSpec.describe WatirApi do
 
         show_booking = API::Booking.show(id: id).data
 
-        bug_workaround(show_booking)
-
         expect(show_booking).to eq booking
       end
     end
@@ -54,6 +51,9 @@ RSpec.describe WatirApi do
 
         updated_booking = Model::Booking.new
         API::Booking.update(id: id, with: updated_booking, token: token)
+
+        show_booking = API::Booking.show(id: id).data
+        expect(show_booking).to eq updated_booking
       end
     end
 
@@ -74,9 +74,4 @@ RSpec.describe WatirApi do
     API::Authenticate.create(user).data[:token]
   end
 
-  # This is a workaround for an intentional bug in the restful-booker API
-  def bug_workaround(booking)
-    booking.bookingdates.checkin = booking.bookingdates.checkin + 1
-    booking.bookingdates.checkout = booking.bookingdates.checkout + 1
-  end
 end
