@@ -29,7 +29,7 @@ Or install it yourself as:
 
 1. Set the base url
     ```ruby
-    WatirApi::Base.base_url = '"https://restful-booker.herokuapp.com"'
+    WatirApi::Base.base_url = 'https://restful-booker.herokuapp.com'
     ```
 2. Create a subclass with an endpoint:
     ```ruby
@@ -44,24 +44,24 @@ Or install it yourself as:
 
 3. Make API calls
     ```ruby
-    booking = {firstname: "Trey",
-               lastname: "Ruecker",
+    booking = {firstname: 'Trey',
+               lastname: 'Ruecker',
                totalprice: 83,
                depositpaid: true,
-               bookingdates: {checkin: '2019-02-23',
-                              checkout: '2019-02-27'}}
+               bookingdates: {checkin: '3/23/2019',
+                              checkout: '3/27/2019'}}
      
     API::Booking.create(booking)
     ```
 
 4. The Array or Hash of results is accessed with `#data`
     ```ruby
-    booking = {firstname: "David",
-               lastname: "Jones",
+    booking = {firstname: 'David',
+               lastname: 'Jones',
                totalprice: 183,
                depositpaid: true,
-               bookingdates: {checkin: '2019-03-23',
-                              checkout: '2019-03-27'}}
+               bookingdates: {checkin: '3/23/2019',
+                              checkout: '3/27/2019'}}
      
     created_booking = API::Booking.create(booking)
     booking_id = created_booking.data[:bookingid]
@@ -159,6 +159,17 @@ Or install it yourself as:
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/titusfortner/watir_api.
+
+## History
+
+While I've been leveraging this approach at my past few jobs, my solutions were application specific and `<cough>` not
+satisfyingly elegant. My initial attempts at implementing this gem were much too over-engineered and weren't solving
+the actual general use case, so this project has stayed on the shelf in spite of the industry need for it. 
+Then at the 2017 Selenium Conference in Berlin, [Mark Winteringham](https://twitter.com/2bittester) gave
+a talk titled [REST APIs and WebDriver: In Perfect Harmony](https://www.youtube.com/watch?v=ugAlCZBMOvM).
+This gave me the outside vantage point I needed to see what this code needed to do, and I started by copying the functionality 
+of the code in [Mark's repo](https://github.com/mwinteringham/api-framework/tree/master/ruby), 
+and then added in some extra functionality including the extra goodness that leveraging WatirModel provides.
 
 ## License
 
