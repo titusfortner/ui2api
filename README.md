@@ -1,9 +1,9 @@
-# Watir API
+# UI2API
 
 As more web applications make use of an interface to interact with their service layer, people now have
  more flexibility to set up and verify parts of their UI tests without needing to use a browser.
 
-This simple gem makes it easy to subclass `WatirApi::Base` and provide all of the information necessary
+This simple gem makes it easy to subclass `UI2API::Base` and provide all of the information necessary
 to interact with the different REST endpoints available in your application.
 
 This code is designed to be used with the [watir_model gem](https://github.com/titusfortner/watir_model). 
@@ -17,7 +17,7 @@ input and output from UI to API and back.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'watir_api'
+gem 'ui2api'
 ```
 
 And then execute:
@@ -26,18 +26,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install watir_api
+    $ gem install ui2api
 
 ## Usage
 
 1. Set the base url
     ```ruby
-    WatirApi::Base.base_url = 'https://restful-booker.herokuapp.com'
+    UI2API::Base.base_url = 'https://restful-booker.herokuapp.com'
     ```
 2. Create a subclass with an endpoint:
     ```ruby
     module API
-      class Booking < WatirApi::Base
+      class Booking < UI2API::Base
         def self.endpoint
           'booking'
         end
@@ -102,7 +102,7 @@ Or install it yourself as:
     end
     ```
 
-    Because we have a model class defined that is named the same as the API class, `WatirApi` will 
+    Because we have a model class defined that is named the same as the API class, `UI2API` will 
     automatically attempt to create an instance of the model from the return value of the API call. 
     It is accessible from a method based on the name of the API/Model classes, so in this case `#booking`:
 
@@ -119,12 +119,12 @@ Or install it yourself as:
 
 6. Customize
 
-    You have a subclass, so if you need to add or change things before or after a call, just override the `WatirApi` method
+    You have a subclass, so if you need to add or change things before or after a call, just override the `UI2API` method
     in your subclass:
 
     ```ruby
     module API
-      class Booking < WatirApi::Base
+      class Booking < UI2API::Base
       
         attr_reader :id
         
@@ -149,7 +149,7 @@ Or install it yourself as:
     
     ```ruby
     module API
-      class Booking < WatirApi::Base
+      class Booking < UI2API::Base
         def initialize(*)
           super
           return if @data.is_a?(Array)
@@ -161,7 +161,7 @@ Or install it yourself as:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/titusfortner/watir_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/titusfortner/ui2api.
 
 ## History
 

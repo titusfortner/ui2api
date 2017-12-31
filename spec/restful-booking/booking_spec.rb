@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe WatirApi do
+RSpec.describe UI2API do
   describe "Booking" do
 
     describe "#index" do

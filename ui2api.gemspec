@@ -2,7 +2,7 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-  spec.name          = "watir_api"
+  spec.name          = "ui2api"
   spec.version       = "0.2.1"
   spec.authors       = ["Titus Fortner"]
   spec.email         = ["titusfortner@gmail.com"]
@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{A simple class for interacting with a Web App's API using test data}
   spec.description   = %q{Send and receive data via a Web App's API, ideally using WatirModel objects. The goal is to
 compare test data with what is input and displayed via UI.}
-  spec.homepage      = "https://github.com/titusfortner/watir_api"
+  spec.homepage      = "https://github.com/titusfortner/ui2api"
   spec.license       = "MIT"
 
   if spec.respond_to?(:metadata)

@@ -12,7 +12,7 @@ RSpec.describe "#convert_to_model" do
     key(:brar) { Faker::Lorem.word }
   end
 
-  class TestConvert < WatirApi::Base
+  class TestConvert < UI2API::Base
     def self.model_object
       TestConvertModel
     end

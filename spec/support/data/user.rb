@@ -1,4 +1,4 @@
-module WatirApi
+module UI2API
   module Model
     class User < Base
       key(:username) { Faker::Internet.user_name }

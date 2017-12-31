@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module WatirApi
+module UI2API
   RSpec.describe "Addresses" do
 
     let(:address) { Model::Address.new }

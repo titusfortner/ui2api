@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe WatirApi do
+RSpec.describe UI2API do
   describe "Authorisation" do
     it "returns user data" do
       user = Model::User.authorised

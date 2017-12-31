@@ -1,6 +1,6 @@
-module WatirApi
+module UI2API
   module API
-    class Base < WatirApi::Base
+    class Base < UI2API::Base
       class << self
         def base_url
           if ENV['RUN_LOCAL']

@@ -1,18 +1,18 @@
 require "bundler/setup"
 require "watir_model"
-require "watir_api"
+require "ui2api"
 require "require_all"
 
 require_rel "support/apis"
 require_rel "support/data"
 require_rel "support/site"
 
-include WatirApi
+include UI2API
 
 WatirModel.yml_directory = "spec/support/config/data"
 
 RSpec.configure do |config|
-  config.include WatirApi
+  config.include UI2API
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 

@@ -1,4 +1,4 @@
-module WatirApi
+module UI2API
   module Model
     class BookingDates < Base
       key(:checkin, data_type: Date) { Faker::Date.forward }

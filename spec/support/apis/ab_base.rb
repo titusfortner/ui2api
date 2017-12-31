@@ -1,6 +1,6 @@
-module WatirApi
+module UI2API
   module API
-    class ABBase < WatirApi::Base
+    class ABBase < UI2API::Base
       class << self
         def headers
           opt = super

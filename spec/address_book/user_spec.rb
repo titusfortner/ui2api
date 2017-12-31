@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module WatirApi
+module UI2API
   RSpec.describe API::User do
 
     let(:user) { Model::ABUser.new }

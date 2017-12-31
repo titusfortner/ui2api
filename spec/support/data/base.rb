@@ -1,4 +1,4 @@
-module WatirApi
+module UI2API
   module Model
     class Base < WatirModel
       require 'faker'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe WatirApi do
+RSpec.describe UI2API do
   describe "#route" do
     it "makes use of endpoint" do
       expect(API::Booking.route).to eq "#{API::Base.base_url}/booking"

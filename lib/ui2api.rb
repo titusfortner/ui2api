@@ -2,7 +2,7 @@ require "rest-client"
 require "json"
 require 'active_support/inflector'
 
-module WatirApi
+module UI2API
   class Base
     class << self
 

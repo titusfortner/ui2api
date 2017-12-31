@@ -1,4 +1,4 @@
-module WatirApi
+module UI2API
   module API
     class User < ABBase
       class << self
