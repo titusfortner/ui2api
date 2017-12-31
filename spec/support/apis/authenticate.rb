@@ -1,10 +1,13 @@
-module API
-  class Authenticate < WatirApi::Base
-    def self.endpoint
-      'auth'
+module WatirApi
+  module API
+    class Authenticate < API::Base
+      def self.endpoint
+        'auth'
+      end
     end
 
     attr_accessor :token
+
       def initialize(*)
         super
         @token = @data[:token]

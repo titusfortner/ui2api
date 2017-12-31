@@ -7,35 +7,30 @@ RSpec.describe WatirApi do
       it "returns bookings as Array of Hashes" do
         bookings = API::Booking.index
 
-        expect(bookings.data).to all(be_a Hash)
-        expect(bookings.data.first).to have_key(:bookingid)
+        expect(bookings.data).to all have_key(:bookingid)
       end
     end
 
     describe "#create" do
       it "adds new booking" do
-        booking = API::Booking.create
-        id = booking.data[:bookingid]
+        id = API::Booking.create.id
 
-        bookings = API::Booking.index.data
-        expect(bookings.map { |b| b[:bookingid] }).to include(id)
+        booking_ids = API::Booking.index.data
+        expect(booking_ids.map { |b| b[:bookingid] }).to include(id)
       end
 
       it "returns booking information as nested Hash" do
         booking = Model::Booking.new
-        created_booking = API::Booking.create(booking)
+        created_booking = API::Booking.create(booking).booking
 
-        converted_booking = Model::Booking.convert created_booking.data[:booking]
-
-        expect(converted_booking).to eq booking
+        expect(created_booking).to eq booking
       end
     end
 
     describe "#show" do
       it "returns booking information as a WatirModel" do
         booking = Model::Booking.new
-        create_booking = API::Booking.create(booking)
-        id = create_booking.data[:bookingid]
+        id = API::Booking.create(booking).id
 
         show_booking = API::Booking.show(id: id).booking
 
@@ -51,8 +46,7 @@ RSpec.describe WatirApi do
       it "returns special booking information as a hash" do
         allow(API::Booking).to receive(:model_object).and_return(Model::SpecialBooking)
 
-        create_booking = API::Booking.create
-        id = create_booking.data[:bookingid]
+        id = API::Booking.create.id
 
         show_booking = API::Booking.show(id: id).data
 
@@ -60,14 +54,13 @@ RSpec.describe WatirApi do
       end
     end
 
-    # update doesn't seem to work; I think this is intentional
     describe "#update" do
-      it "verifies syntax even if not working" do
+      it "updates booking information" do
         booking = API::Booking.create(Model::Booking.new)
-        id = booking.data[:bookingid]
+        id = booking.id
 
         updated_booking = Model::Booking.new
-        API::Booking.update(id: id, with: updated_booking, token: token)
+        API::Booking.update(id: id, with: updated_booking)
 
         show_booking = API::Booking.show(id: id).booking
         expect(show_booking).to eq updated_booking
@@ -76,19 +69,13 @@ RSpec.describe WatirApi do
 
     describe "#destroy" do
       it "deletes booking" do
-        id = API::Booking.create.data[:bookingid]
+        id = API::Booking.create.id
 
-        API::Booking.destroy(id: id, token: token)
+        API::Booking.destroy(id: id)
 
-        bookings = API::Booking.index.data
-        expect(bookings.map { |b| b[:bookingid] }).to_not include(id)
+        booking_ids = API::Booking.index.data
+        expect(booking_ids.map { |b| b[:bookingid] }).to_not include(id)
       end
     end
   end
-
-  def token
-    user = Model::User.authorised
-    API::Authenticate.create(user).token
-  end
-
 end

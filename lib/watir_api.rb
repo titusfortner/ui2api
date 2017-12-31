@@ -100,6 +100,8 @@ module WatirApi
       var = var.pluralize if @data.is_a? Array
       instance_variable_set "@#{var}", model
       singleton_class.class_eval { attr_accessor var }
+      @id = @data[:id] if @data.is_a? Hash
+      singleton_class.class_eval { attr_accessor :id } unless @id.nil?
     end
 
     def convert_to_model(data)

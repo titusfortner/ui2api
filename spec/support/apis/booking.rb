@@ -1,22 +1,38 @@
-module API
-  class Booking < WatirApi::Base
-    class << self
-      def endpoint
-        'booking'
+module WatirApi
+  module API
+    class Booking < API::Base
+      class << self
+        def endpoint
+          'booking'
+        end
+
+        def update(id:, with:, **opt)
+          opt[:cookies] = {token: token}
+          super
+        end
+
+        def destroy(opt)
+          opt[:cookies] = {token: token}
+          super
+        end
+
+        private
+
+        def token
+          user = Model::User.authorised
+          API::Authenticate.create(user).data[:token]
+        end
       end
 
-      def update(id:, with:, **opt)
-        opt[:cookies] = {token: opt.delete(:token)}
+      def initialize(*)
         super
-      end
+        return unless @data.is_a?(Hash) && @booking.nil?
 
-      def destroy(opt)
-        opt[:cookies] = {token: opt.delete(:token)}
-        super
-      end
+        @id = @data[:bookingid]
+        @booking = convert_to_model(@data[:booking])
 
-      def model_object
-        Model::Booking
+        singleton_class.class_eval { attr_accessor :id }
+        singleton_class.class_eval { attr_accessor :booking }
       end
     end
   end
