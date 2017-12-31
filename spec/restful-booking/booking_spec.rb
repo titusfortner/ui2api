@@ -37,7 +37,7 @@ RSpec.describe WatirApi do
         create_booking = API::Booking.create(booking)
         id = create_booking.data[:bookingid]
 
-        show_booking = API::Booking.show(id: id).data
+        show_booking = API::Booking.show(id: id).booking
 
         expect(show_booking).to eq booking
       end
@@ -69,7 +69,7 @@ RSpec.describe WatirApi do
         updated_booking = Model::Booking.new
         API::Booking.update(id: id, with: updated_booking, token: token)
 
-        show_booking = API::Booking.show(id: id).data
+        show_booking = API::Booking.show(id: id).booking
         expect(show_booking).to eq updated_booking
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe WatirApi do
 
   def token
     user = Model::User.authorised
-    API::Authenticate.create(user).data[:token]
+    API::Authenticate.create(user).token
   end
 
 end

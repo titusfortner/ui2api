@@ -34,7 +34,7 @@ RSpec.describe "#convert_to_model" do
     allow(response).to receive(:body).and_return array.to_json
 
     tc = TestConvert.new(response)
-    expect(tc.data).to all(be_a TestConvertModel)
+    expect(tc.test_convert_models).to all(be_a TestConvertModel)
   end
 
   it 'ignores objects that are not Hashes or Arrays' do
