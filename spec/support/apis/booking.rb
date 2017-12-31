@@ -28,11 +28,8 @@ module WatirApi
         super
         return unless @data.is_a?(Hash) && @booking.nil?
 
-        @id = @data[:bookingid]
-        @booking = convert_to_model(@data[:booking])
-
-        singleton_class.class_eval { attr_accessor :id }
-        singleton_class.class_eval { attr_accessor :booking }
+        define_attribute(:id, @data[:bookingid])
+        define_attribute(:booking, convert_to_model(@data[:booking]))
       end
     end
   end

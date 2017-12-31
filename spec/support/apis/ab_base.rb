@@ -12,7 +12,7 @@ module WatirApi
         end
 
         def base_url
-          unless ENV['RUN_LOCAL']
+          if ENV['RUN_LOCAL']
             "http://localhost:3000"
           else
             "https://address-book-example.herokuapp.com"

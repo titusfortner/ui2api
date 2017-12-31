@@ -98,10 +98,8 @@ module WatirApi
       model = convert_to_model(@data) unless @data.nil?
       var = model_object.to_s[/[^:]*$/].underscore
       var = var.pluralize if @data.is_a? Array
-      instance_variable_set "@#{var}", model
-      singleton_class.class_eval { attr_accessor var }
-      @id = @data[:id] if @data.is_a? Hash
-      singleton_class.class_eval { attr_accessor :id } unless @id.nil?
+      define_attribute(var, model)
+      define_attribute(:id, @data[:id]) if @data.is_a? Hash
     end
 
     def convert_to_model(data)
@@ -122,6 +120,11 @@ module WatirApi
 
     def model_object
       self.class.model_object
+    end
+
+    def define_attribute(key, value)
+      instance_variable_set("@#{key}", value)
+      singleton_class.class_eval { attr_reader key }
     end
   end
 end
