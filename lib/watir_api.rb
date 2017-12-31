@@ -80,13 +80,13 @@ module WatirApi
       end
     end
 
-    attr_reader :data, :code, :response
+    attr_reader :response, :code, :header, :data
 
     def initialize(args)
-      response, request, _result = *args
+      response, _request, _result = *args
       @response = response
       @code = response.code
-      @header = request.instance_variable_get('@header')
+      @header = response.instance_variable_get('@headers')
       @data = JSON.parse(response.body, symbolize_names: true) rescue nil
       @data = (convert_to_model(@data) || @data) unless @data.nil? || !(defined? model_object.new)
     end
