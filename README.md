@@ -6,8 +6,11 @@ As more web applications make use of an interface to interact with their service
 This simple gem makes it easy to subclass `WatirApi::Base` and provide all of the information necessary
 to interact with the different REST endpoints available in your application.
 
-This code is designed to be used with the [watir_model gem](https://github.com/titusfortner/watir_model). The Model stores the canonical data and is used
-to make it easy to compare the input and output from both the API and the UI.
+This code is designed to be used with the [watir_model gem](https://github.com/titusfortner/watir_model). 
+The Model stores data in a way that makes it easy to compare the input and output from both the API and the UI.
+
+Note that while this gem can be used as the basis of an API Testing suite, its primary focus is on comparing
+input and output from UI to API and back. 
 
 ## Installation
 
