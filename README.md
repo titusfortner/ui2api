@@ -167,9 +167,9 @@ satisfyingly elegant. My initial attempts at implementing this gem were much too
 the actual general use case, so this project has stayed on the shelf in spite of the industry need for it. 
 Then at the 2017 Selenium Conference in Berlin, [Mark Winteringham](https://twitter.com/2bittester) gave
 a talk titled [REST APIs and WebDriver: In Perfect Harmony](https://www.youtube.com/watch?v=ugAlCZBMOvM).
-This gave me the outside vantage point I needed to see what this code needed to do, and I started by copying the functionality 
+This gave me the outside vantage point I needed to see how to focus the project. I started by copying the functionality 
 of the code in [Mark's repo](https://github.com/mwinteringham/api-framework/tree/master/ruby), 
-and then added in some extra functionality including the extra goodness that leveraging WatirModel provides.
+and then added in some extra goodness that leveraging WatirModel provides.
 
 ## License
 
