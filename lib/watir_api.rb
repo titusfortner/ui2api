@@ -7,30 +7,29 @@ module WatirApi
 
       def index(opt = {})
         new rest_call({method: :get,
-                      url: route}.merge opt)
+                       url: route(opt)}.merge opt)
       end
 
       def show(id:, **opt)
         new rest_call({method: :get,
-                      url: "#{route}/#{id}".chomp('/')}.merge opt)
+                       url: "#{route(opt)}/#{id}".chomp('/')}.merge opt)
       end
 
-      def create(obj = nil)
-        new rest_call(method: :post,
-                      url: route,
-                      payload: generate_payload(obj),
-                      headers: headers)
+      def create(obj = nil, opt = {})
+        new rest_call({method: :post,
+                       url: route(opt),
+                       payload: generate_payload(obj)}.merge opt)
       end
 
       def destroy(id:, **opt)
         new rest_call({method: :delete,
-                      url: "#{route}/#{id}".chomp('/')}.merge opt)
+                       url: "#{route(opt)}/#{id}".chomp('/')}.merge opt)
       end
 
       def update(id:, with:, **opt)
         new rest_call({method: :put,
-                      url: "#{route}/#{id}".chomp('/'),
-                      payload: generate_payload(with)}.merge opt)
+                       url: "#{route(opt)}/#{id}".chomp('/'),
+                       payload: generate_payload(with)}.merge opt)
       end
 
       def base_url=(base_url)
@@ -57,7 +56,7 @@ module WatirApi
 
       def rest_call(opt)
         opt[:verify_ssl] = opt.delete(:ssl) if opt.key?(:ssl)
-        opt[:headers] = opt.delete(:headers) || headers
+        opt[:headers] ||= headers
         RestClient::Request.execute(opt) do |response, request, result|
           [response, request, result]
         end
