@@ -1,5 +1,6 @@
 require "rest-client"
 require "json"
+require 'active_support/inflector'
 
 module WatirApi
   class Base
@@ -88,7 +89,17 @@ module WatirApi
       @code = response.code
       @header = response.instance_variable_get('@headers')
       @data = JSON.parse(response.body, symbolize_names: true) rescue nil
-      @data = (convert_to_model(@data) || @data) unless @data.nil? || !(defined? model_object.new)
+
+      set_watir_model_attr
+    end
+
+    def set_watir_model_attr
+      return unless defined?(model_object.new)
+      model = convert_to_model(@data) unless @data.nil?
+      var = model_object.to_s[/[^:]*$/].downcase
+      var = var.pluralize if @data.is_a? Array
+      instance_variable_set "@#{var}", model
+      singleton_class.class_eval { attr_accessor var }
     end
 
     def convert_to_model(data)
