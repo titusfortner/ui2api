@@ -22,4 +22,10 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before(:each) do
+    Base.generate_schema = true if ENV['GENERATE_SCHEMA']
+    Base.validate_schema = true if ENV['VALIDATE_SCHEMA']
+  end
+
 end
